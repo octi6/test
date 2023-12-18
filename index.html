@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="stylesheet" href="sty;e.css">
+    <title>AlpineJs turorial</title>
+</head>
+<body>
+    <div class="all-pets" x-data="{'pets':[], isLoaded: false }" x-init="{pets} =await (await fetch('https://learnwebcode.github.io/json-example/pets-data.json')).json(); isLoaded=true">
+      <template x-if="!pets.length && isLoaded">
+          <p>You have no pets</p>
+      </template>
+      <template x-for="(pet,index) in pets">
+        <div class="pet-card" x-data="{showAge : false}">
+          <div class="pet-image">
+            <img :src="pet.photo" />
+          </div>
+          <div class=" pet-text">
+            <h2 x-text=" index + ' '+pet.name"></h2>
+            <template x-if="pet.favFoods">
+              <p >Favorite foods: <span x-html="pet.favFoods"></span></p>
+            </template>
+            <p>Species: <span x-text="pet.species"></span></p>
+          
+            <button class="cool-button" x-on:click="showAge= ! showAge">Toggle Age</button>
+            <span x-text="pet.birthYear" x-show="showAge" ></span>
+            <p>
+              <button class="delete-pet" x-on:click="pets = pets.filter((pet,loopImde)=>{
+                  return index!=loopImde
+              })">Delete Pet</button>
+            </p>
+          </div>
+        </div>
+      </template>
+    
+</div>
+</body>
+</html>
